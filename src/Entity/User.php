@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
+use App\Entity\Candidat;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface
 {
@@ -37,14 +40,14 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Candidat::class, mappedBy="user")
+     * @ORM\OneToOne(targetEntity=candidat::class, cascade={"persist", "remove"})
      */
-    private $candidats;
+    private $candidat;
 
-    public function __construct()
-    {
-        $this->candidats = new ArrayCollection();
-    }
+    // public function __construct()
+    // {
+    //     $this->candidats = new ArrayCollection();
+    // }
 
     public function getId(): ?int
     {
@@ -127,32 +130,14 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection|Candidat[]
-     */
-    public function getCandidats(): Collection
+    public function getCandidat(): ?candidat
     {
-        return $this->candidats;
+        return $this->candidat;
     }
 
-    public function addCandidat(Candidat $candidat): self
+    public function setCandidat(?candidat $candidat): self
     {
-        if (!$this->candidats->contains($candidat)) {
-            $this->candidats[] = $candidat;
-            $candidat->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCandidat(Candidat $candidat): self
-    {
-        if ($this->candidats->removeElement($candidat)) {
-            // set the owning side to null (unless already changed)
-            if ($candidat->getUser() === $this) {
-                $candidat->setUser(null);
-            }
-        }
+        $this->candidat = $candidat;
 
         return $this;
     }

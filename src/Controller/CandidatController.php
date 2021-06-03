@@ -63,18 +63,23 @@ class CandidatController extends AbstractController
      */
     public function edit(Request $request, Candidat $candidat): Response
     {
+        $user = $this->getUser();
         $form = $this->createForm(CandidatType::class, $candidat);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('candidat_index');
+            return $this->redirectToRoute('candidat_edit',[
+            'id'=> $candidat->getId(),
+
+            ]);
         }
 
         return $this->render('candidat/edit.html.twig', [
             'candidat' => $candidat,
             'form' => $form->createView(),
+            'user' => $user,
         ]);
     }
 

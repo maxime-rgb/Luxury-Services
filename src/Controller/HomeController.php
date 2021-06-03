@@ -15,6 +15,22 @@ class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
+            'user' => $this->getUser(),
         ]);
+    }
+    /**
+     * @Route("/contact", name="contact_index")
+     */
+    public function contact_index():Response
+    {
+        return $this->render('home/contact.html.twig');
+    }
+
+        /**
+     * @Route("/compagny", name="compagny_index")
+     */
+    public function compagny_index():Response
+    {
+        return $this->render('home/compagny.html.twig');
     }
 }
