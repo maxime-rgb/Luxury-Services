@@ -23,4 +23,5 @@ class ClientType extends AbstractType
             'data_class' => Client::class,
         ]);
     }
+
 }

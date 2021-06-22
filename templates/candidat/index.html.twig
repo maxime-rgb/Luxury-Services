@@ -3,48 +3,48 @@
 {% block title %}Candidat index{% endblock %}
 
 {% block body %}
-    <h1>Candidat index</h1>
 
-    <table class="table">
+
+   <h1 style="padding-bottom:2rem; padding-top:10rem; background-color: #2F3138;text-align: center; color:white;margin-top:0">Candidat list</h1>
+
+    <table class="table" style="font-size:1rem;">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Profile_picture</th>
                 <th>First_name</th>
                 <th>Last_name</th>
                 <th>Country</th>
                 <th>Cv</th>
-                <th>Profile_picture</th>
                 <th>Current_location</th>
                 <th>Adress</th>
-                <th>Nationality</th>
-                <th>Availability</th>
                 <th>Short_description</th>
-                <th>Active</th>
-                <th>Passport</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for candidat in candidats %}
             <tr>
-                <td>{{ candidat.id }}</td>
+                <td>
+                {% if candidat.profilePicture is null %} 
+                       <img style="width: 4rem; height: 5rem;"src="{{ asset ('uploads/picture/profiltype.jpg')}}">
+                {% else %}
+                <img style="width: 4rem; height: 4rem;" src="{{ asset ('uploads/picture/') ~ candidat.profilePicture }}">
+                {% endif %}
+                
+                </td>
                 <td>{{ candidat.firstName }}</td>
                 <td>{{ candidat.lastName }}</td>
                 <td>{{ candidat.country }}</td>
-                <td>{{ candidat.cv }}</td>
-                <td>{{ candidat.profilePicture }}</td>
+                <td><a href="{{ asset ('uploads/cv/') ~ candidat.cv }}"> 📂 </td>
                 <td>{{ candidat.currentLocation }}</td>
                 <td>{{ candidat.adress }}</td>
-                <td>{{ candidat.nationality }}</td>
-                <td>{{ candidat.availability ? 'Yes' : 'No' }}</td>
                 <td>{{ candidat.shortDescription }}</td>
-                <td>{{ candidat.active ? 'Yes' : 'No' }}</td>
-                <td>{{ candidat.passport }}</td>
                 <td>
-                    <a href="{{ path('candidat_show', {'id': candidat.id}) }}">show</a>
-                    <a href="{{ path('candidat_edit', {'id': candidat.id}) }}">edit</a>
+                    <a style="width:7rem;height:3rem;font-size:0.8em;padding:initial;" href="{{ path('candidat_show', {'id': candidat.id}) }}"class="btn gradient grey lighten-2 black waves-effect waves-light btn-register">show</a>
+
+                    <a style="width:7rem;height:3rem;font-size:0.8em;padding:initial;"href="{{ path('candidat_edit', {'id': candidat.id}) }}"class="btn gradient secondary  waves-effect waves-light btn-register">edit</a>
                 </td>
-            </tr>
+            </tr>    
         {% else %}
             <tr>
                 <td colspan="14">no records found</td>
@@ -53,5 +53,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('candidat_new') }}">Create new</a>
+    <a href="{{ path('candidat_new') }}"class="btn bn-lg gradient grey lighten-2 black btn-block waves-effect waves-light btn-register">Create new</a>
+        <a target="_self" href="{{ path ('admin_index')}}"class="btn bn-lg gradient secondary btn-block waves-effect waves-light btn-register"style="margin:0;">
+    <span>Return to admin page</span></a>
 {% endblock %}

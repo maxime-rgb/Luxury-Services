@@ -38,7 +38,7 @@ class InfoAdminCandidat
     private $files;
 
     /**
-     * @ORM\OneToOne(targetEntity=Candidat::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="infoAdminCandidats")
      */
     private $candidat;
 

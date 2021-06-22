@@ -21,6 +21,7 @@ class JobCategory
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $category;
 
@@ -31,6 +32,7 @@ class JobCategory
 
     /**
      * @ORM\OneToMany(targetEntity=Candidat::class, mappedBy="job_category")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $candidats;
 
@@ -115,5 +117,9 @@ class JobCategory
         }
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->getCategory();
     }
 }

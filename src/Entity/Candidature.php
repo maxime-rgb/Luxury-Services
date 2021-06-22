@@ -18,14 +18,22 @@ class Candidature
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="candidatures")
+     * @ORM\ManyToOne(targetEntity=Candidat::class)
+    * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $candidat;
 
     /**
-     * @ORM\ManyToOne(targetEntity=JobOffer::class, inversedBy="candidatures")
+     * @ORM\ManyToOne(targetEntity=JobOffer::class , cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
+
     private $job_offer;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $date_postulate;
 
     public function getId(): ?int
     {
@@ -52,6 +60,18 @@ class Candidature
     public function setJobOffer(?JobOffer $job_offer): self
     {
         $this->job_offer = $job_offer;
+
+        return $this;
+    }
+
+    public function getDatePostulate(): ?\DateTimeInterface
+    {
+        return $this->date_postulate;
+    }
+
+    public function setDatePostulate(\DateTimeInterface $date_postulate): self
+    {
+        $this->date_postulate = $date_postulate;
 
         return $this;
     }

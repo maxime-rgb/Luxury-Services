@@ -20,6 +20,11 @@ class Candidat
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="candidat", cascade={"persist", "remove"})
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $first_name;
@@ -75,14 +80,20 @@ class Candidat
     private $active;
 
     /**
-     * @ORM\ManyToOne(targetEntity=JobCategory::class, inversedBy="candidats")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToMany(targetEntity=InfoAdminCandidat::class, mappedBy="candidat")
+     */
+    private $infoAdminCandidats;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=JobCategory::class, inversedBy="Candidat")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $job_category;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Experience::class, inversedBy="candidats")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity=Experience::class, inversedBy="candidat",cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+
      */
     private $experience;
 
@@ -92,8 +103,7 @@ class Candidat
     private $passport;
 
     /**
-     * @ORM\OneToOne(targetEntity=Gender::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="infoAdminCandidat")
      */
     private $gender;
 
@@ -333,7 +343,6 @@ class Candidat
         return $this;
     }
 
-
     public function getBirthPlace(): ?string
     {
         return $this->birth_place;
@@ -358,4 +367,40 @@ class Candidat
         return $this;
     }
 
+    public function toArray(){
+        return ['gender'=>$this->getGender(),
+                'firstname'=>$this->getFirstName(), 
+                'lastname'=>$this->getLastName(), 
+                'adress' => $this->getAdress(), 
+                'country' => $this->getCountry(),
+                'nationality' => $this->getNationality(),
+                'curriculumVitae' => $this->getCv(),
+                'profilPicture' => $this->getProfilePicture(),
+                'currentLocation' => $this->getCurrentLocation(),
+                'dateOfBirth' => $this->getBirthDate(),
+                'placeOfBirth' => $this->getBirthPlace(),
+                'shortDescription' => $this->getShortDescription(),
+                'experience' => $this->getExperience(),
+                'jobCategory' => $this->getJobCategory(),
+                'passportFile' => $this->getPassport()
+            ];
+    }
+
+    public function profilIsCompleted()
+    {
+        return $this->getProfilCompletionPercent() === 100;
+    }
+
+    public function getProfilCompletionPercent()
+    {
+        $filledFieldCount = 0;
+        $fields = $this -> toArray();
+
+        foreach ($fields as $field){
+            if (!empty($field)){
+                $filledFieldCount ++ ;
+            }
+        }
+       return $filledFieldCount * 100 / count($fields);
+    }
 }

@@ -62,11 +62,13 @@ class JobOffer
 
     /**
      * @ORM\ManyToOne(targetEntity=JobCategory::class, inversedBy="jobOffers")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $job_category;
 
     /**
      * @ORM\ManyToOne(targetEntity=JobType::class, inversedBy="jobOffers")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $job_type;
 
@@ -233,5 +235,9 @@ class JobOffer
         }
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->getJobCategory();
     }
 }

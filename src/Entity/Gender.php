@@ -18,58 +18,31 @@ class Gender
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $Male;
+    private $gender;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $Female;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $Undefined;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getMale(): ?string
+
+    public function getGender(): ?string
     {
-        return $this->Male;
+        return $this->gender;
     }
 
-    public function setMale(string $Male): self
+    public function setGender(?string $gender): self
     {
-        $this->Male = $Male;
+        $this->gender = $gender;
 
         return $this;
     }
-
-    public function getFemale(): ?string
+    public function __toString(): string
     {
-        return $this->Female;
-    }
-
-    public function setFemale(string $Female): self
-    {
-        $this->Female = $Female;
-
-        return $this;
-    }
-
-    public function getUndefined(): ?string
-    {
-        return $this->Undefined;
-    }
-
-    public function setUndefined(string $Undefined): self
-    {
-        $this->Undefined = $Undefined;
-
-        return $this;
+        return $this->getGender();
     }
 }

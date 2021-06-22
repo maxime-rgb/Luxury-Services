@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/experience")
+ * @Route("/admin/experience")
  */
 class ExperienceController extends AbstractController
 {

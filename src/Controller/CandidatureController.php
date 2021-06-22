@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Candidature;
+use App\Entity\JobOffer;
 use App\Form\CandidatureType;
 use App\Repository\CandidatureRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/candidature")
@@ -26,37 +29,49 @@ class CandidatureController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="candidature_new", methods={"GET","POST"})
+     * @Route("/new/{id}", name="candidature_new", methods={"GET"})
      */
-    public function new(Request $request): Response
+    public function new(
+        JobOffer $jobOffer, 
+        Security $security
+        ): Response
     {
-        $candidature = new Candidature();
-        $form = $this->createForm(CandidatureType::class, $candidature);
-        $form->handleRequest($request);
+        /** @var User */
+        $user = $security->getUser();
+        $candidat = $user->getCandidat();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($candidature);
-            $entityManager->flush();
+        if(!$candidat->profilIsCompleted()) {
+            
+            $this->addFlash('error', "Your profile have to be completed at 100% !");
 
-            return $this->redirectToRoute('candidature_index');
+            return $this->redirectToRoute('candidat_edit', [
+                'id'=> $candidat->getId(),
+            ]); 
         }
 
-        return $this->render('candidature/new.html.twig', [
-            'candidature' => $candidature,
-            'form' => $form->createView(),
+        $candidature = new Candidature();
+        $candidature->setJobOffer($jobOffer);
+        $candidature->setCandidat($user->getCandidat());
+        $candidature->setDatePostulate(new DateTime());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($candidature);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('job_offer_show', [
+            'id'=> $jobOffer->getId(),
         ]);
     }
 
     /**
      * @Route("/{id}", name="candidature_show", methods={"GET"})
      */
-    public function show(Candidature $candidature): Response
-    {
-        return $this->render('candidature/show.html.twig', [
-            'candidature' => $candidature,
-        ]);
-    }
+    // public function show(Candidature $candidature): Response
+    // {
+    //     return $this->render('candidature/show.html.twig', [
+    //         'candidature' => $candidature,
+    //     ]);
+    // }
 
     /**
      * @Route("/{id}/edit", name="candidature_edit", methods={"GET","POST"})

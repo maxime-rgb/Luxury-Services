@@ -102,8 +102,9 @@
                                 <li><a href="/templates/compagny.html">About Us</a></li>
                                 <li><a href="{{ path('contact_index') }}">Contact</a></li>
                                 <li>-</li>
+
                                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                <li><a href="{{ path ('candidat_edit' , {'id' : user.candidat.id})}}">Profile</a></li>
+                                <li><a href="{{ path ('candidat_edit' , {'id' : app.user.candidat.id})}}">Profile</a></li>
                                 <li><a href="/logout.html">Logout</a></li>
                                 {% endif %}
                             </ul>
@@ -113,38 +114,6 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                 
-                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-
-                             <ul class="menuzord-menu pull-right light" role="navigation">
-                                <li class=" dropdown">
-                                    <a target="_self" href="{{ path ('candidat_edit' , {'id' :user.candidat.id|default})}}">
-                                        <span>Profile</span>
-                                    </a>
-                                </li>
-                                <li class=" dropdown">
-                                    <a target="_self" href="{{ path ('app_logout')}}" class="btn bn-lg gradient secondary btn-block waves-effect waves-light btn-register">
-                                        <span>Logout</span>
-                                    </a>
-
-                                </li>
-                            </ul>
-
-                         {% else %}
-
-                            <ul class="menuzord-menu pull-right light" role="navigation">
-                                <li class=" dropdown">
-                                    <a target="_self" href="{{ path ('app_login')}}">
-                                        <span>Login</span>
-                                    </a>
-                                </li>
-                                <li class=" dropdown">
-                                    <a target="_self" href="{{ path ('app_register')}}" class="btn bn-lg gradient secondary btn-block waves-effect waves-light btn-register">
-                                        <span>Sign Up</span>
-                                    </a>
-
-                                </li>
-                            </ul>
-                        {% endif %}
                     <ul class="menuzord-menu pull-right light" role="navigation">
                         <li class="active dropdown">
                             <a target="_self" href="/">
@@ -170,11 +139,69 @@
                                 <span>Contact</span>
                             </a>
                         </li>
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+                             
+
+                             <ul class="menuzord-menu pull-right light" role="navigation">
+                                <li class=" dropdown">
+                                    <a target="_self" href="{{ path ('candidat_edit' , {'id' :app.user.candidat.id|default})}}"class="btn bn-lg gradient grey lighten-3 btn-block waves-effect waves-light btn-register">
+                                        <span class="black-text">Profile</span>
+                                    </a>
+                                </li>
+                                <li class=" dropdown">
+                                    <a target="_self" href="{{ path ('app_logout')}}" class="btn bn-lg gradient grey darken-1
+                                     btn-block waves-effect waves-light btn-register">
+                                        <span>Logout</span>
+                                    </a>
+
+                                </li>
+                            
+
+                            {% if is_granted('ROLE_ADMIN') %}
+
+                           
+                                <li class=" dropdown">
+                                    <a target="_self" href="{{ path ('admin_index')}}"class="btn bn-lg gradient secondary btn-block waves-effect waves-light btn-register">
+                                        <span>admin</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+
+                         {% endif %}
+                         {% else %}
+
+                            <ul class="menuzord-menu pull-right light" role="navigation">
+                                <li class=" dropdown">
+                                    <a target="_self" href="{{ path ('app_login')}}" class="btn bn-lg gradient grey lighten-2  btn-block waves-effect waves-light btn-register"style="color:black;">
+                                        <span class="text-black">Login</span>
+                                    </a>
+                                </li>
+                                <li class=" dropdown">
+                                    <a target="_self" href="{{ path ('app_register')}}" class="btn bn-lg gradient secondary btn-block waves-effect waves-light btn-register">
+                                        <span>Sign Up</span>
+                                    </a>
+
+                                </li>
+                            </ul>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-danger ">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+
+
+
+
 </header>
 
         {% block javascripts %}

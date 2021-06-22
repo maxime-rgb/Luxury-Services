@@ -3,7 +3,7 @@
 {% block title %}JobType{% endblock %}
 
 {% block body %}
-    <h1>JobType</h1>
+
 
     <table class="table">
         <tbody>
@@ -18,7 +18,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('job_type_index') }}">back to list</a>
+    <a href="{{ path('job_type_index') }}"class="btn gradient grey lighten-2 black waves-effect waves-light btn-register">back to list</a>
 
     <a href="{{ path('job_type_edit', {'id': job_type.id}) }}">edit</a>
 

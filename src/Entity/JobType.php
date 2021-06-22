@@ -26,6 +26,7 @@ class JobType
 
     /**
      * @ORM\OneToMany(targetEntity=JobOffer::class, mappedBy="job_type")
+     * * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $jobOffers;
 
@@ -80,4 +81,10 @@ class JobType
 
         return $this;
     }
+    public function __toString(): string
+    {
+        return $this->getType();
+    }
 }
+
+

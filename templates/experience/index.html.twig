@@ -3,7 +3,7 @@
 {% block title %}Experience index{% endblock %}
 
 {% block body %}
-    <h1>Experience index</h1>
+<h1 style="padding-bottom:2rem; padding-top:10rem; background-color: #2F3138;text-align: center; color:white;margin-top:0">Experience index</h1>
 
     <table class="table">
         <thead>
@@ -19,8 +19,8 @@
                 <td>{{ experience.id }}</td>
                 <td>{{ experience.experience }}</td>
                 <td>
-                    <a href="{{ path('experience_show', {'id': experience.id}) }}">show</a>
-                    <a href="{{ path('experience_edit', {'id': experience.id}) }}">edit</a>
+                    <a style="width:7rem;height:3rem;font-size:0.8em;padding:initial;"href="{{ path('experience_show', {'id': experience.id}) }}"class="btn gradient  secondary  waves-effect waves-light btn-register">show</a>
+                    <a style="width:7rem;height:3rem;font-size:0.8em;padding:initial;"href="{{ path('experience_edit', {'id': experience.id}) }}"class="btn gradient grey lighten-2  waves-effect waves-light btn-register">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,8 @@
         </tbody>
     </table>
 
-    <a href="{{ path('experience_new') }}">Create new</a>
+    <a href="{{ path ('experience_new' , {'id' : app.user.candidat.id})}}"class="btn bn-lg gradient grey lighten-2 btn-block waves-effect waves-light btn-register; color:black;"><span class="black-text">Create new<span></a>
+    <a target="_self" href="{{ path ('admin_index')}}"class="btn bn-lg gradient secondary btn-block waves-effect waves-light btn-register">
+    <span>Return to admin page</span></a>
+
 {% endblock %}

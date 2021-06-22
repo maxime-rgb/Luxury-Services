@@ -3,11 +3,11 @@
 {% block title %}Edit JobOffer{% endblock %}
 
 {% block body %}
-    <h1>Edit JobOffer</h1>
+ <h1 style="padding-bottom:2rem; padding-top:10rem; background-color: #2F3138;text-align: center; color:white;margin-top:0">Edit Job Offer</h1>
 
     {{ include('job_offer/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('job_offer_index') }}">back to list</a>
-
+        <a href="{{ path('job_offer_index') }}"class="btn gradient grey lighten-2 black waves-effect waves-light btn-register">back to list</a>
+        
     {{ include('job_offer/_delete_form.html.twig') }}
 {% endblock %}

@@ -69,7 +69,42 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-sm-offset-3 card card-panel">
                         <h3 class="text-extrabold">Create a new account</h3>
-                        {{ include('user/_form.html.twig') }}
+                        {{ form_start(registrationForm) }}
+
+
+                            <input type="hidden" name="_token" value="">
+
+                            <div class="input-field">
+                                {{ form_widget(registrationForm.email) }}
+                                {{ form_label(registrationForm.email) }}
+                                {# <input type="email" name="email" id="email" value=""
+                                       required
+                                       data-parsley-trigger="change"
+                                       data-parsley-error-message="A valid email address is required.">
+                                <label for="email">Email</label> #}
+                                <span class="help-block">Type your email address.</span>
+                            </div>
+                            <div class="input-field">
+                                {{ form_widget(registrationForm.plainPassword) }}
+                                {{ form_label(registrationForm.plainPassword) }}
+                                
+                                <i class="fa fa-eye show-password"></i>
+                                <span class="help-block">Type your password.</span>
+                            </div>
+
+
+                            <div class="checkbox">
+                                {{ form_widget(registrationForm.agreeTerms) }}
+                                <label for="registration_form_agreeTerms">I have read and I accept the <a href="#!" target="_blank">Terms Of Use</a></label>
+                            </div>
+
+                            <button type="submit" class="btn btn-lg gradient secondary btn-block waves-effect waves-light mt-20 mb-20">Create an account</button>
+
+
+                            <div class="links">
+                                <a href="/login.html">Already have an account? Click here</a>
+                            </div>
+                        
                     </div>
 
                 </div>
@@ -79,6 +114,6 @@
     </div>
 
 </div>
-
+{{ form_end(registrationForm) }}
 {% endblock %}
 

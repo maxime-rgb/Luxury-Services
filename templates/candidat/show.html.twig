@@ -3,14 +3,22 @@
 {% block title %}Candidat{% endblock %}
 
 {% block body %}
-    <h1>Candidat</h1>
+   <h1 style="padding-bottom:2rem; padding-top:10rem; background-color: #2F3138;text-align: center; color:white;margin-top:0">Candidat details</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ candidat.id }}</td>
+                <th>Profile_picture</th>
+                                <td>
+                {% if candidat.profilePicture is null %} 
+                       <img style="width: 4rem; height: 5rem;"src="{{ asset ('uploads/picture/profiltype.jpg')}}">
+                {% else %}
+                <img style="width: 4rem; height: 4rem;" src="{{ asset ('uploads/picture/') ~ candidat.profilePicture }}">
+                {% endif %}
+                
+                </td>
             </tr>
+
             <tr>
                 <th>First_name</th>
                 <td>{{ candidat.firstName }}</td>
@@ -25,12 +33,9 @@
             </tr>
             <tr>
                 <th>Cv</th>
-                <td>{{ candidat.cv }}</td>
+               <td><a href="{{ asset ('uploads/cv/') ~ candidat.cv }}"> See CV 🔎 </td>
             </tr>
-            <tr>
-                <th>Profile_picture</th>
-                <td>{{ candidat.profilePicture }}</td>
-            </tr>
+
             <tr>
                 <th>Current_location</th>
                 <td>{{ candidat.currentLocation }}</td>
@@ -57,7 +62,7 @@
             </tr>
             <tr>
                 <th>Passport</th>
-                <td>{{ candidat.passport }}</td>
+                <td><a href="{{ asset ('uploads/passport/') ~ candidat.passport }}">  See passport🔎 </td>
             </tr>
         </tbody>
     </table>

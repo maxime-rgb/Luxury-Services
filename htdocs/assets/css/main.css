@@ -17,6 +17,11 @@ Alert
     margin-right: 10px;
     float: left;
 }
+h1.candidatList{
+    height: 100px;
+    background-color: #2F3138 !important;
+    }
+    
 /*
 Alert Border Style
 -------------------------------------------------*/
@@ -2889,3 +2894,4 @@ Vertical Tab
     }
 }
 .fa.fa-eye.show-password.active{display: none;}
+

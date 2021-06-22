@@ -1,32 +1,31 @@
-{%block steelsheets%}
-
-<style>.tp-caption.boxshadow, .boxshadow {
-            box-shadow: 0 0 0px rgb(0 0 0)!important;
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        .dropdown-content{
+            max-height: none; 
         }
-</style>
-{%endblock%}
+        .tp-caption.boxshadow, .boxshadow {
+            box-shadow: 0 0 0px rgb(0 0 0)!important;
+        } 
+    </style>
+{% endblock %}
 
 
 {{ form_start(form) }}
-        <form method="POST" action="#!" accept-charset="UTF-8" id="candidateForm" role="form" data-parsley-validate="" enctype="multipart/form-data"><input name="_token" type="hidden" value="UYfchy67WuTVzhSstPK1RDZEIfgqpKCcLnLyhf8a">
+
             <section class="section-padding">
                 <div class="container">
                     <div class="row">
                         <h3 class="text-extrabold">Your personal informations</h3>
                         <div class="col-xs-12 col-sm-6 col-md-4">
 
-                            <div class="input-field">
-
-
-                                <select id="gender" name="gender">
-                                    <option value="">Choose an option...</option>
-                                    <option value="male">Male</option>
-                                    <option value="female" selected="selected">Female</option>
-                                    <option value="transgender">Transgender</option>
-                                </select>
-
-                                <label for="gender" class="active">Gender</label>
-
+                            <div class="input-field">                             
+                                <div class="input-field">
+                                    {{ form_widget(form.gender) }}
+                                    {{ form_label(form.gender, 'gender', {
+                                        'label_attr': {'class': 'gender'}
+                                    }) }}
+                                </div>
                             </div>
 
                         </div>
@@ -69,13 +68,14 @@
                         <div class="col-xs-12 col-sm-6 col-md-4">
                             <div class="file-field input-field"
                                  style="margin-top: 32px;">
-                                <div class="btn btn-lg primary waves-effect waves-light">
-                                    <span><i class="material-icons">insert_photo</i> Photo</span>
-                                    <input id="photo" size="20000000" accept=".pdf,.jpg,.doc,.docx,.png,.gif" name="photo" type="file">
-                                </div>
+
+                    <div class="btn btn-lg primary waves-effect waves-light">
+                            <span><i class="material-icons">insert_photo</i> Photo</span>
+                            {{ form_widget(form.profile_picture) }}
+                            </div>
 
                                 <div class="existing-file">
-                                    <a href="#!" target="_blank"><i class="material-icons">&#xE24D;</i> profil_picture.jpg</a>
+                                    <a href="{{ asset ('uploads/picture/' ~ candidat.profilePicture) }}" target="_blank"><i class="material-icons">&#xE24D;</i> profil_picture.jpg</a>
                                 </div>
                                 <div class="file-path-wrapper">
                                     <input class="file-path validate" type="text" placeholder="Upload your ID photo" readonly>
@@ -131,7 +131,7 @@
                                         {{ form_widget(form.passport) }}                                   
                                     </div>
                                     <div class="existing-file">
-                                        <a href="#!" target="_blank"><i class="material-icons">&#xE24D;</i> passeport.jpg</a>
+                                        <a href="{{ asset ('uploads/passport/' ~ candidat.passport) }}" target="_blank"><i class="material-icons">&#xE24D;</i> passeport.jpg</a>
                                     </div>
                                     <div class="file-path-wrapper">
                                         <input class="file-path validate" type="text" placeholder="Upload your passport" readonly>
@@ -141,12 +141,11 @@
                                 <div class="file-field input-field">
                                     <div class="btn btn-lg primary waves-effect waves-light">
                                         <span><i class="material-icons">&#xE24D;</i> CV</span>
-                                      
-                                        <input id="cv" size="20000000" accept=".pdf,.jpg,.doc,.docx,.png,.gif" name="cv" type="file">
+                                      {{ form_widget(form.cv) }} 
                                     </div>
 
                                     <div class="existing-file">
-                                        <a href="#!" target="_blank"><i class="material-icons">&#xE24D;</i> CV.pdf</a>
+                                        <a href="{{ asset ('uploads/cv/' ~ candidat.cv) }}" target="_blank"><i class="material-icons">&#xE24D;</i> CV.pdf</a>
                                     </div>
                                     <div class="file-path-wrapper">
                                         <input class="file-path validate" type="text" placeholder="Upload your Curriculum Vitae" readonly>
@@ -160,30 +159,32 @@
                             <div class="col-xs-12 col-sm-12">
                                 <div class="input-field" style="margin-top: 5px;">
 
-                                    <select id="job_sector" name="job_sector[]" multiple data-placeholder="Type in or Select job sector you would be interested in.">
-                                        <option value="">Choose an option...</option>
-                                        <option value="">job sector</option>
-                                    </select>
-
-                                    <label for="job_sector" class="active">Interest in job sector</label>
-
+                               
+                                {{ form_widget(form.job_category) }}
+                                {{ form_label(form.job_category, 'job_category ', {
+                                    'label_attr': {'class': 'job_category'}
+                                }) }}
                                 </div>
                             </div>
 
                             <div class="col-xs-12 col-sm-12">
-                                <div class="input-field">
+                                    <div class="input-field">
+                                {{ form_widget(form.experience) }}
+                                {{ form_label(form.experience, 'experience ', {
+                                    'label_attr': {'class': 'experience'}
+                                }) }}
+                                    </div>
+                                
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="input-field">
+                                {{ form_widget(form.availability) }}
+                                {{ form_label(form.availability, 'availability ', {
+                                    'label_attr': {'class': 'availability'}
+                                }) }}
+                                    </div>
+                                
 
-                                    <select id="experience" required="required" name="experience">
-                                        <option value="">Choose</option>
-                                        <option value="3m">0 - 6 month</option>
-                                        <option value="6m">6 month - 1 year</option>
-                                        <option value="1y">1 - 2 years</option>
-                                        <option value="2y">2+ years</option>
-                                        <option value="5y" selected="selected">5+ years</option>
-                                        <option value="10y">10+ years</option>
-                                    </select>
-
-                                    <label for="experience" class="active">Experience</label>
+                    
                                     
                                 </div>
                             </div>
@@ -192,8 +193,10 @@
 
                         <div class="col-xs-12 col-sm-12">
                             <div class="input-field">
-                                <textarea class="materialize-textarea" id="description" name="description" cols="50" rows="10"></textarea>
-                                <label for="description">Short description for your profile, as well as more personnal informations (e.g. your hobbies/interests ). You can also paste any link you want.</label>
+                                {{ form_widget(form.short_description) }}
+                                {{ form_label(form.short_description, 'short description', {
+                                    'label_attr': {'class': 'short_description'}
+                                }) }}
                             </div>
                         </div>
                     </div>
@@ -223,12 +226,12 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 mt-40 mb-80 delete-account">
-                            <a href="#!" onclick="return prompt('Please Type \'Delete my account\' to delete your K-Yachting Services account:') == 'Delete my account'" class="btn btn-block btn-lg waves-effect waves-light"><i class="material-icons">&#xE872;</i>Delete my account</a>
+                            <a href="#!" onclick="return prompt('Please Type \'Delete my account\' to delete your K-Yachting Services account:') == 'Delete my account'" class="btn black btn-block btn-lg waves-effect waves-light"><i class="material-icons">&#xE872;</i>Delete my account</a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-4">
-                            <a href="#!" class="btn btn-block btn-lg border primary waves-effect waves-light"><i class="fa fa-long-arrow-left"></i> Back home</a>
+                            <a href="{{ path ('home')}}" class=" btn-block btn-lg border grey lighten-2 black waves-effect waves-light" style="text-align:center"><i class="fa fa-long-arrow-left"></i> Back home</a>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-4">
                             <button type="submit" class="btn btn-block btn-lg gradient secondary waves-effect waves-light">
@@ -239,6 +242,22 @@
 
                 </div>
             </section>
-        </form>
 
 {{ form_end(form) }}
+
+{% block javascripts %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+    <script>
+        $(document).ready(function(){
+            $('select').formSelect();
+        });
+    </script>
+    <script>
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd' });
+    </script>
+
+{% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}JobType index{% endblock %}
 
 {% block body %}
-    <h1>JobType index</h1>
+<h1 style="padding-bottom:2rem; padding-top:10rem; background-color: #2F3138;text-align: center; color:white;margin-top:0">Job Types</h1>
 
     <table class="table">
         <thead>
@@ -19,8 +19,9 @@
                 <td>{{ job_type.id }}</td>
                 <td>{{ job_type.type }}</td>
                 <td>
-                    <a href="{{ path('job_type_show', {'id': job_type.id}) }}">show</a>
-                    <a href="{{ path('job_type_edit', {'id': job_type.id}) }}">edit</a>
+                    <a style="width:7rem;height:3rem;font-size:0.8em;padding:initial;" href="{{ path('job_type_show', {'id': job_type.id}) }}"class="btn gradient grey lighten-2 black waves-effect waves-light btn-register">show</a>
+                    
+                    <a style="width:7rem;height:3rem;font-size:0.8em;padding:initial;"href="{{ path('job_type_edit', {'id': job_type.id}) }}"class="btn gradient secondary  waves-effect waves-light btn-register">edit</a>
                 </td>
             </tr>
         {% else %}

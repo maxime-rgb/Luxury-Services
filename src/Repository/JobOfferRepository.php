@@ -18,6 +18,50 @@ class JobOfferRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, JobOffer::class);
     }
+    // ONLY SHOW THE FIRST TEN OFFERS IN HOME/INDEX
+    public function findByTenLastOffer(){
+
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT 
+                job_offer,
+                jobCategory
+            FROM
+                App\Entity\JobOffer job_offer
+
+            JOIN job_offer.category jobCategory
+            ORDER BY job_offer.createdAt DESC '
+        )
+            ->setMaxResults(10);
+        return $query->getResult();
+    }
+
+    public function getPreviousJob($job){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT  
+                job_offer
+             FROM App\Entity\JobOffer job_offer
+             WHERE job_offer.creation_date < :date 
+             ORDER BY job_offer.id DESC
+            '
+            )->setParameter('date', $job->getCreationDate())->setMaxResults(1);
+        return $query->getResult();
+    }
+    
+    public function getNextJob($job){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT  
+                job_offer
+             FROM App\Entity\JobOffer job_offer
+             WHERE job_offer.creation_date > :date 
+             ORDER BY job_offer.id ASC
+            '
+            )->setParameter('date', $job->getCreationDate())->setMaxResults(1);
+        return $query->getResult();
+
+    }
 
     // /**
     //  * @return JobOffer[] Returns an array of JobOffer objects

@@ -2,10 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Candidat;
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,14 +37,10 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity=candidat::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Candidat::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $candidat;
-
-    // public function __construct()
-    // {
-    //     $this->candidats = new ArrayCollection();
-    // }
 
     public function getId(): ?int
     {
@@ -135,7 +128,7 @@ class User implements UserInterface
         return $this->candidat;
     }
 
-    public function setCandidat(?candidat $candidat): self
+    public function setCandidat(candidat $candidat): self
     {
         $this->candidat = $candidat;
 

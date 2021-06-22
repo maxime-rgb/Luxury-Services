@@ -2,28 +2,43 @@
 
 namespace App\Controller;
 
+
 use App\Entity\JobOffer;
+use App\Entity\JobType;
 use App\Form\JobOfferType;
+use App\Repository\CandidatureRepository;
+use App\Repository\JobCategoryRepository;
 use App\Repository\JobOfferRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/job/offer")
  */
 class JobOfferController extends AbstractController
 {
-    /**
+
+     /**
      * @Route("/", name="job_offer_index", methods={"GET"})
      */
-    public function index(JobOfferRepository $jobOfferRepository): Response
+    public function index(JobOfferRepository $jobOfferRepository, JobCategoryRepository $jobCategoryRepository): Response
     {
+        // dd($jobCategoryRepository->findAll());
+        $user = $this->getUser();
+
+        $allJobCategory = $jobCategoryRepository->findAll();
+
         return $this->render('job_offer/index.html.twig', [
             'job_offers' => $jobOfferRepository->findAll(),
+            'user' => $user,
+            'categories' => $allJobCategory,
         ]);
     }
+
 
     /**
      * @Route("/new", name="job_offer_new", methods={"GET","POST"})
@@ -35,6 +50,9 @@ class JobOfferController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $jobOffer->setCreationDate(new DateTime());
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($jobOffer);
             $entityManager->flush();
@@ -51,11 +69,35 @@ class JobOfferController extends AbstractController
     /**
      * @Route("/{id}", name="job_offer_show", methods={"GET"})
      */
-    public function show(JobOffer $jobOffer): Response
+    public function show(
+        JobOffer $jobOffer, 
+        JobOfferRepository $jobOfferRepository, 
+        CandidatureRepository $candidatureRepository,
+        Security $security
+        ): Response
     {
+        /** @var User */
+        $user = $security->getUser();
+        $jobBefore = $jobOfferRepository->getPreviousJob($jobOffer);
+        $jobAfter = $jobOfferRepository->getNextJob($jobOffer);
+        $user->setCandidat($user->getCandidat());
+        $jobTypeRepository = $this->getDoctrine()
+        ->getRepository(JobType::class);
+
+        $jobType = $jobTypeRepository->findOneBy(['id' => $jobOffer->getJobType()]);
+
         return $this->render('job_offer/show.html.twig', [
             'job_offer' => $jobOffer,
+            'job_type' => $jobType,
+            'job_previous'=> $jobBefore,
+            'job_next'=> $jobAfter,
+        // convertir candidature en Boolean
+            'candidatureExists' => !! $candidatureRepository->findOneBy([
+                'job_offer'=> $jobOffer->getId(),
+                'candidat'=> $user->getCandidat()->getId(),
+            ])
         ]);
+
     }
 
     /**

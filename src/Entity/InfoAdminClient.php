@@ -19,7 +19,7 @@ class InfoAdminClient
 
 
     /**
-     * @ORM\OneToOne(targetEntity=Client::class)
+     * @ORM\OneToOne(targetEntity=Client::class, inversedBy= "infoAdminclient")
      * @ORM\JoinColumn(nullable=false)
      */
     private $client;

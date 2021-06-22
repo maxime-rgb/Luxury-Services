@@ -3,7 +3,7 @@
 {% block title %}Client{% endblock %}
 
 {% block body %}
-    <h1>Client</h1>
+<h1 style="padding-bottom:2rem; padding-top:10rem; background-color: #2F3138;text-align: center; color:white;margin-top:0">Client</h1>
 
     <table class="table">
         <tbody>
@@ -22,9 +22,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('client_index') }}">back to list</a>
+    <a class="btn bn-lg gradient secondary btn-block waves-effect waves-light btn-register" href="{{ path('client_index') }}">back to list</a>
 
-    <a href="{{ path('client_edit', {'id': client.id}) }}">edit</a>
+    <a class="btn bn-lg gradient grey darken-1 black btn-block waves-effect waves-light btn-register" href="{{ path('client_edit', {'id': client.id}) }}" style="margin:0;">edit</a>
 
     {{ include('client/_delete_form.html.twig') }}
 {% endblock %}
